@@ -892,6 +892,10 @@ def display_batch_dataframe(df: pd.DataFrame, export_csv: bool = True) -> Option
 
         # Export to CSV if requested
         if export_csv:
+            # Create output folder if it doesn't exist
+            output_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'output_folder')
+            os.makedirs(output_folder, exist_ok=True)
+            
             csv_filename = f"extraction_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
             output_path = os.path.join(output_folder, csv_filename)
             df.to_csv(output_path, index=False)
@@ -900,4 +904,4 @@ def display_batch_dataframe(df: pd.DataFrame, export_csv: bool = True) -> Option
     else:
         print("❌ No data to display.")
     
-    return csv_filename
+    return output_path if export_csv else None
